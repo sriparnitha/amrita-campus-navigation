@@ -5,11 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Amrita Smart Campus Navigator</title>
-
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -25,10 +22,7 @@ header {
   padding: 25px 15px;
 }
 
-header h1 {
-  margin: 0 0 10px;
-  font-size: 25px;
-}
+header h1 { font-size: 25px; }
 
 main {
   max-width: 650px;
@@ -52,17 +46,13 @@ input, select, button {
   border-radius: 8px;
 }
 
-input, select {
-  border: 1px solid #bbb;
-  background: white;
-}
+input, select { border: 1px solid #bbb; }
 
 button {
   background: #087e8b;
   color: white;
   border: none;
   font-weight: bold;
-  cursor: pointer;
 }
 
 .result {
@@ -72,18 +62,9 @@ button {
   cursor: pointer;
 }
 
-.result:hover {
-  background: #d8eff1;
-}
-
-#results {
-  margin-bottom: 10px;
-}
-
 #message {
   margin-top: 15px;
   line-height: 1.6;
-  overflow-wrap: anywhere;
 }
 
 .note {
@@ -96,13 +77,11 @@ footer {
   text-align: center;
   padding: 20px;
   font-size: 13px;
-  color: #536477;
 }
 </style>
 </head>
 
 <body>
-
 <header>
   <h1>Amrita Smart Campus Navigator</h1>
   <p>Amrita Vishwa Vidyapeetham</p>
@@ -111,23 +90,16 @@ footer {
 </header>
 
 <main>
-
 <section class="card">
   <h2>Find Your Destination</h2>
 
-  <input
-    id="search"
-    type="search"
+  <input id="search" type="search"
     placeholder="Search library, laboratory, hostel..."
-    oninput="searchPlaces()"
-  >
+    oninput="searchPlaces()">
 
   <div id="results"></div>
 
-  <label for="destination">
-    Or select a place:
-  </label>
-
+  <label for="destination">Or select a place:</label>
   <select id="destination">
     <option value="">Choose a destination</option>
   </select>
@@ -149,11 +121,10 @@ footer {
     to confirm the route.
   </p>
   <p class="note">
-    Verified map markers and walking routes
-    will be added in a future version.
+    Accurate walking routes will be added
+    after the campus paths are verified.
   </p>
 </section>
-
 </main>
 
 <footer>
@@ -163,48 +134,48 @@ footer {
 
 <script>
 const places = [
-  "Academic Block - I",
-  "Academic Block - II",
-  "School of Business",
-  "CIR Block",
-  "Mechanical Labs",
-  "Central Library",
-  "M.Tech Block",
-  "Convention Centre",
-  "Ashram",
-  "Civil & Aerospace Labs",
-  "Academic Block - III",
-  "Student Centre",
-  "ATC Lab",
-  "Plant Room",
-  "Academic Block - IV",
-  "Kapila Bhavanam (Gents Hostel)",
-  "Gargi Bhavanam (Ladies Hostel)",
-  "Savithri Bhavanam (Ladies Hostel)",
-  "Mythreyi Bhavanam (Ladies Hostel)",
-  "Vashishta Bhavanam (Gents Hostel)",
-  "Agasthya Bhavanam (Gents Hostel)",
-  "Gauthama Bhavanam (Gents Hostel)",
-  "Sri Vyasamarishi Bhavanam (Gents Hostel)",
-  "Nachiketas Bhavanam (Gents Hostel)",
-  "Yagnavalkya Bhavanam (Gents Hostel)",
-  "Kashyapa Bhavanam (Gents Hostel)",
-  "Brighu Bhavanam (Gents Hostel)",
-  "Adhithi Bhavanam (Ladies Hostel)",
-  "Central Kitchen",
-  "Guest House",
-  "Swimming Pool",
-  "Common Amenities Complex (Hospital, Stores)",
-  "Project Office - I",
-  "Fabrication Shop",
-  "Vehicle Workshop",
-  "Godowns",
-  "Canteen",
-  "Power House",
-  "IT Canteen",
-  "Project Office - 2",
-  "Arogya Sadanam (Gym)",
-  "Staff Quarters"
+"Academic Block - I",
+"Academic Block - II",
+"School of Business",
+"CIR Block",
+"Mechanical Labs",
+"Central Library",
+"M.Tech Block",
+"Convention Centre",
+"Ashram",
+"Civil & Aerospace Labs",
+"Academic Block - III",
+"Student Centre",
+"ATC Lab",
+"Plant Room",
+"Academic Block - IV",
+"Kapila Bhavanam (Gents Hostel)",
+"Gargi Bhavanam (Ladies Hostel)",
+"Savithri Bhavanam (Ladies Hostel)",
+"Mythreyi Bhavanam (Ladies Hostel)",
+"Vashishta Bhavanam (Gents Hostel)",
+"Agasthya Bhavanam (Gents Hostel)",
+"Gauthama Bhavanam (Gents Hostel)",
+"Sri Vyasamarishi Bhavanam (Gents Hostel)",
+"Nachiketas Bhavanam (Gents Hostel)",
+"Yagnavalkya Bhavanam (Gents Hostel)",
+"Kashyapa Bhavanam (Gents Hostel)",
+"Brighu Bhavanam (Gents Hostel)",
+"Adhithi Bhavanam (Ladies Hostel)",
+"Central Kitchen",
+"Guest House",
+"Swimming Pool",
+"Common Amenities Complex (Hospital, Stores)",
+"Project Office - I",
+"Fabrication Shop",
+"Vehicle Workshop",
+"Godowns",
+"Canteen",
+"Power House",
+"IT Canteen",
+"Project Office - 2",
+"Arogya Sadanam (Gym)",
+"Staff Quarters"
 ];
 
 const searchBox = document.getElementById("search");
@@ -212,7 +183,6 @@ const results = document.getElementById("results");
 const destination = document.getElementById("destination");
 const message = document.getElementById("message");
 
-// Add all places to the dropdown.
 places.forEach(function(place) {
   const option = document.createElement("option");
   option.value = place;
@@ -220,15 +190,11 @@ places.forEach(function(place) {
   destination.appendChild(option);
 });
 
-// Search for campus locations.
 function searchPlaces() {
   const query = searchBox.value.trim().toLowerCase();
-
   results.replaceChildren();
 
-  if (query === "") {
-    return;
-  }
+  if (!query) return;
 
   const matches = places.filter(function(place) {
     return place.toLowerCase().includes(query);
@@ -250,23 +216,19 @@ function searchPlaces() {
   });
 
   if (matches.length === 0) {
-    const item = document.createElement("p");
-    item.textContent = "No matching place found.";
-    results.appendChild(item);
+    results.textContent = "No matching place found.";
   }
 }
 
-// Display the selected destination.
 function showDestination() {
   const place = destination.value;
+  message.replaceChildren();
 
   if (!place) {
     message.textContent =
-      "Please search for or select a destination first.";
+      "Please select a destination first.";
     return;
   }
-
-  message.replaceChildren();
 
   const heading = document.createElement("h3");
   heading.textContent = "Your Destination";
@@ -276,13 +238,11 @@ function showDestination() {
 
   const info = document.createElement("p");
   info.textContent =
-    "Please use the campus map and building signs " +
-    "to confirm the exact location and walking route.";
+    "Please check the campus map and building signs " +
+    "for the exact location and walking route.";
 
   message.append(heading, name, info);
 }
 </script>
-
 </body>
 </html>
-
