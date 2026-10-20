@@ -1,248 +1,285 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Amrita Smart Campus Navigator</title>
-<style>
-* { box-sizing: border-box; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amrita Smart Campus Navigator - Ettimadai</title>
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f0f4f8;
-  color: #17324d;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-header {
-  background: #12345a;
-  color: white;
-  text-align: center;
-  padding: 25px 15px;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+    }
 
-header h1 { font-size: 25px; }
+    header {
+      background: #003366;
+      color: white;
+      padding: 25px 20px;
+      text-align: center;
+    }
 
-main {
-  max-width: 650px;
-  margin: 20px auto;
-  padding: 15px;
-}
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
 
-.card {
-  background: white;
-  padding: 20px;
-  margin-bottom: 18px;
-  border-radius: 14px;
-  box-shadow: 0 3px 12px #0001;
-}
+    header p {
+      margin: 8px 0 0;
+      opacity: 0.9;
+    }
 
-input, select, button {
-  width: 100%;
-  padding: 13px;
-  margin: 8px 0;
-  font-size: 16px;
-  border-radius: 8px;
-}
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
 
-input, select { border: 1px solid #bbb; }
+    .navigator-card {
+      background: white;
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    }
 
-button {
-  background: #087e8b;
-  color: white;
-  border: none;
-  font-weight: bold;
-}
+    h2 {
+      margin-top: 0;
+      color: #003366;
+    }
 
-.result {
-  padding: 12px;
-  background: #edf7f8;
-  border-bottom: 1px solid #ddd;
-  cursor: pointer;
-}
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
 
-#message {
-  margin-top: 15px;
-  line-height: 1.6;
-}
+    .form-group {
+      flex: 1;
+      min-width: 220px;
+    }
 
-.note {
-  font-size: 14px;
-  color: #536477;
-  line-height: 1.6;
-}
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
 
-footer {
-  text-align: center;
-  padding: 20px;
-  font-size: 13px;
-}
-</style>
+    select,
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #003366;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #00509e;
+    }
+
+    #map {
+      width: 100%;
+      height: 480px;
+      border-radius: 12px;
+      margin-top: 10px;
+    }
+
+    #directionsPanel {
+      margin-top: 20px;
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      #map {
+        height: 350px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-<header>
-  <h1>Amrita Smart Campus Navigator</h1>
-  <p>Amrita Vishwa Vidyapeetham</p>
-  <p>Coimbatore Campus</p>
-  <strong>Where would you like to go?</strong>
-</header>
 
-<main>
-<section class="card">
-  <h2>Find Your Destination</h2>
+  <header>
+    <h1>Amrita Smart Campus Navigator</h1>
+    <p>Find directions across Amrita Vishwa Vidyapeetham, Ettimadai, Coimbatore</p>
+  </header>
 
-  <input id="search" type="search"
-    placeholder="Search library, laboratory, hostel..."
-    oninput="searchPlaces()">
+  <div class="container">
+    <div class="navigator-card">
+      <h2>Get Directions</h2>
 
-  <div id="results"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="from">From</label>
+          <select id="from">
+            <option value="Amrita Vishwa Vidyapeetham, Amritanagar, Ettimadai, Coimbatore, Tamil Nadu 641112">
+              Main Gate
+            </option>
 
-  <label for="destination">Or select a place:</label>
-  <select id="destination">
-    <option value="">Choose a destination</option>
-  </select>
+            <option value="Amrita Vishwa Vidyapeetham Central Library, Amritanagar, Ettimadai, Coimbatore">
+              Central Library
+            </option>
 
-  <button onclick="showDestination()">
-    Find Destination
-  </button>
+            <option value="Amrita Vishwa Vidyapeetham Boys Hostel, Amritanagar, Ettimadai, Coimbatore">
+              Boys Hostel
+            </option>
 
-  <div id="message" aria-live="polite"></div>
-</section>
+            <option value="Amrita Vishwa Vidyapeetham Girls Hostel, Amritanagar, Ettimadai, Coimbatore">
+              Girls Hostel
+            </option>
 
-<section class="card">
-  <h2>How to Find Your Way</h2>
-  <p class="note">
-    1. Search for your destination.<br>
-    2. Select the correct place.<br>
-    3. View the destination information.<br>
-    4. Follow campus signs and block maps
-    to confirm the route.
-  </p>
-  <p class="note">
-    Accurate walking routes will be added
-    after the campus paths are verified.
-  </p>
-</section>
-</main>
+            <option value="Amrita School of Engineering, Amritanagar, Ettimadai, Coimbatore">
+              School of Engineering
+            </option>
 
-<footer>
-  Amrita Smart Campus Navigator<br>
-  Student Project
-</footer>
+            <option value="Amrita School of Business, Amritanagar, Ettimadai, Coimbatore">
+              School of Business
+            </option>
 
-<script>
-const places = [
-"Academic Block - I",
-"Academic Block - II",
-"School of Business",
-"CIR Block",
-"Mechanical Labs",
-"Central Library",
-"M.Tech Block",
-"Convention Centre",
-"Ashram",
-"Civil & Aerospace Labs",
-"Academic Block - III",
-"Student Centre",
-"ATC Lab",
-"Plant Room",
-"Academic Block - IV",
-"Kapila Bhavanam (Gents Hostel)",
-"Gargi Bhavanam (Ladies Hostel)",
-"Savithri Bhavanam (Ladies Hostel)",
-"Mythreyi Bhavanam (Ladies Hostel)",
-"Vashishta Bhavanam (Gents Hostel)",
-"Agasthya Bhavanam (Gents Hostel)",
-"Gauthama Bhavanam (Gents Hostel)",
-"Sri Vyasamarishi Bhavanam (Gents Hostel)",
-"Nachiketas Bhavanam (Gents Hostel)",
-"Yagnavalkya Bhavanam (Gents Hostel)",
-"Kashyapa Bhavanam (Gents Hostel)",
-"Brighu Bhavanam (Gents Hostel)",
-"Adhithi Bhavanam (Ladies Hostel)",
-"Central Kitchen",
-"Guest House",
-"Swimming Pool",
-"Common Amenities Complex (Hospital, Stores)",
-"Project Office - I",
-"Fabrication Shop",
-"Vehicle Workshop",
-"Godowns",
-"Canteen",
-"Power House",
-"IT Canteen",
-"Project Office - 2",
-"Arogya Sadanam (Gym)",
-"Staff Quarters"
-];
+            <option value="Amrita School of Computing and Artificial Intelligence, Amritanagar, Ettimadai, Coimbatore">
+              School of Computing and AI
+            </option>
+          </select>
+        </div>
 
-const searchBox = document.getElementById("search");
-const results = document.getElementById("results");
-const destination = document.getElementById("destination");
-const message = document.getElementById("message");
+        <div class="form-group">
+          <label for="to">To</label>
+          <select id="to">
+            <option value="Amrita Vishwa Vidyapeetham Central Library, Amritanagar, Ettimadai, Coimbatore">
+              Central Library
+            </option>
 
-places.forEach(function(place) {
-  const option = document.createElement("option");
-  option.value = place;
-  option.textContent = place;
-  destination.appendChild(option);
-});
+            <option value="Amrita Vishwa Vidyapeetham Boys Hostel, Amritanagar, Ettimadai, Coimbatore">
+              Boys Hostel
+            </option>
 
-function searchPlaces() {
-  const query = searchBox.value.trim().toLowerCase();
-  results.replaceChildren();
+            <option value="Amrita Vishwa Vidyapeetham Girls Hostel, Amritanagar, Ettimadai, Coimbatore">
+              Girls Hostel
+            </option>
 
-  if (!query) return;
+            <option value="Amrita School of Engineering, Amritanagar, Ettimadai, Coimbatore">
+              School of Engineering
+            </option>
 
-  const matches = places.filter(function(place) {
-    return place.toLowerCase().includes(query);
-  }).slice(0, 10);
+            <option value="Amrita School of Business, Amritanagar, Ettimadai, Coimbatore">
+              School of Business
+            </option>
 
-  matches.forEach(function(place) {
-    const item = document.createElement("div");
-    item.className = "result";
-    item.textContent = place;
+            <option value="Amrita School of Computing and Artificial Intelligence, Amritanagar, Ettimadai, Coimbatore">
+              School of Computing and AI
+            </option>
 
-    item.onclick = function() {
-      destination.value = place;
-      searchBox.value = place;
-      results.replaceChildren();
-      message.textContent = "";
-    };
+            <option value="Amrita Vishwa Vidyapeetham, Amritanagar, Ettimadai, Coimbatore, Tamil Nadu 641112">
+              Main Gate
+            </option>
+          </select>
+        </div>
 
-    results.appendChild(item);
-  });
+        <div class="form-group">
+          <label for="mode">Travel Mode</label>
+          <select id="mode">
+            <option value="WALKING">Walking</option>
+            <option value="DRIVING">Driving</option>
+            <option value="BICYCLING">Cycling</option>
+          </select>
+        </div>
+      </div>
 
-  if (matches.length === 0) {
-    results.textContent = "No matching place found.";
-  }
-}
+      <button id="getDirections">Get Directions</button>
 
-function showDestination() {
-  const place = destination.value;
-  message.replaceChildren();
+      <div id="map"></div>
+      <div id="directionsPanel"></div>
+    </div>
+  </div>
 
-  if (!place) {
-    message.textContent =
-      "Please select a destination first.";
-    return;
-  }
+  <footer>
+    Amrita Smart Campus Navigator | Ettimadai Campus, Coimbatore
+  </footer>
 
-  const heading = document.createElement("h3");
-  heading.textContent = "Your Destination";
+  <script>
+    let map;
+    let directionsService;
+    let directionsRenderer;
 
-  const name = document.createElement("p");
-  name.textContent = place;
+    function initMap() {
+      const amritaEttimadaiCampus = {
+        lat: 10.9038,
+        lng: 76.9003
+      };
 
-  const info = document.createElement("p");
-  info.textContent =
-    "Please check the campus map and building signs " +
-    "for the exact location and walking route.";
+      map = new google.maps.Map(document.getElementById("map"), {
+        center: amritaEttimadaiCampus,
+        zoom: 16,
+        mapTypeControl: true,
+        streetViewControl: true
+      });
 
-  message.append(heading, name, info);
-}
-</script>
+      directionsService = new google.maps.DirectionsService();
+
+      directionsRenderer = new google.maps.DirectionsRenderer({
+        map: map,
+        panel: document.getElementById("directionsPanel")
+      });
+
+      document
+        .getElementById("getDirections")
+        .addEventListener("click", calculateRoute);
+    }
+
+    function calculateRoute() {
+      const from = document.getElementById("from").value;
+      const to = document.getElementById("to").value;
+      const mode = document.getElementById("mode").value;
+
+      directionsService
+        .route({
+          origin: from,
+          destination: to,
+          travelMode: google.maps.TravelMode[mode]
+        })
+        .then((response) => {
+          directionsRenderer.setDirections(response);
+        })
+        .catch(() => {
+          alert(
+            "Could not find directions. Please check the selected locations or try another travel mode."
+          );
+        });
+    }
+
+    window.initMap = initMap;
+  </script>
+
+  <script
+    async
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap&libraries=routes"
+  ></script>
+
 </body>
 </html>
